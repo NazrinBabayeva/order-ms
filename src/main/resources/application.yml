@@ -1,13 +1,15 @@
 spring:
   application:
     name: order-ms
+
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: 123456
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     hikari:
       schema: orders
+
   profiles:
     active:
       - kafka
@@ -19,27 +21,28 @@ spring:
     database-change-log-table: ORDER_DBCHANGELOG
     database-change-log-lock-table: ORDER_DBCHANGELOGLOCK
 
-
-  redis: localhost
+  redis: ${REDIS_HOST}
 
   sleuth:
     sampler:
       probability: 1.0
 
   zipkin:
-    base-url: http://localhost:9411/api/v2/spans
+    base-url: ${ZIPKIN_BASE_URL}
     sender:
       type: web
     enabled: true
+
   jpa:
     hibernate:
       ddl-auto: none
     show-sql: true
+
   data:
     redis:
-      post: 6379
+      port: ${REDIS_PORT}
 
 server:
-  port: 8081
+  port: ${SERVER_PORT}
   servlet:
     context-path: /order-ms/api
